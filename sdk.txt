@@ -1,6 +1,6 @@
 # Katana SDK / compiler runtime code (not the game's); the repo's tools/progress.py reports it apart.
 # range <start> <end>: whole blocks; func <addr>: single SDK functions matched by signature.
-range 8c0c8870 8c0fece4 SDK libraries (133 of 409 functions matched SDK signatures)
+range 8c0c8870 8c0fece4 SDK libraries (135 of 409 functions matched SDK signatures)
 func 8c0220e4 gtThink
 func 8c0270c0 ntAuGetError
 func 8c03828c grealloc
@@ -11,6 +11,14 @@ func 8c03ed22 ntInfIsNetworkInfo
 func 8c03ed3e ntInfGetNetworkInfo
 func 8c03edc6 ntInfGetFlag
 func 8c03fe68 SwitchToPassport
+func 8c03fea0 _divls
+func 8c03ff54 _divlu
+func 8c03fffc _modls
+func 8c0400c4 _modlu
+func 8c04017c _quick_evn_mvn
+func 8c040188 _quick_odd_mvn
+func 8c040220 _quick_mvn
+func 8c0402e0 _slow_mvn
 func 8c040378 bsearch
 func 8c0403f0 memset
 func 8c040408 qsort
@@ -20,10 +28,13 @@ func 8c0405c8 strcat
 func 8c0405fc strcpy
 func 8c040610 strncmp
 func 8c040650 strncpy
+func 8c040680 _modws
+func 8c0406e8 _slow_strcpy
 func 8c0407e0 _fmtout
 func 8c0411ac _in_atan2s
 func 8c041238 memcpy
 func 8c0412f8 strlen
+func 8c04130c quick_strcpy1
 func 8c041370 _in_atans
 func 8c041554 _xtostr
 func 8c041d5c strncat
@@ -45,7 +56,10 @@ func 8c042c20 _pow5
 func 8c042c44 _rsfts
 func 8c042c9c _sub
 func 8c042d48 _unpack
+func 8c042e50 longjmp
+func 8c042ec4 setjmp
 func 8c042f2c strpbrk
+func 8c042f6c _divws
 func 8c042fbc _div64
 func 8c043150 _duchek
 func 8c043194 _lsft
