@@ -1,7 +1,7 @@
 # Boku Doraemon decomp (kick-off)
 
 A matching decompilation of the Dreamcast **Boku Doraemon**, in progress. It rebuilds the game's
-executable byte for byte from one assembly file per function, with 1,044 of its 3,034 functions
+executable byte for byte from one assembly file per function, with 1,060 of its 3,034 functions
 named so far.
 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
@@ -49,7 +49,7 @@ Docker, `DC_LOCAL=1` runs the tools through `wibo` instead.
 | `build.sh` | assemble, link, convert, compare with your original |
 | `disc.sh` | build a playable disc image of your version (files you put under `disc/`) |
 | `textures.sh` | optional: every standard texture on one page, to find text drawn into images |
-| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder |
+| `tools/` | disc reader, splitter, text mapper, C-unit layout, progress report, missed-function finder, SH-4 disassembler |
 | `AGENTS.md` | the per-function decompilation loop |
 
 `text-map/` (generated) lists the executable's strings with every pointer to them, the text density
@@ -76,15 +76,15 @@ functions documented in `docs/*.md`.
 
 <!-- progress -->
 ```
-GAME CODE                         1782 functions, 236236 bytes of code
+GAME CODE                         1768 functions, 234862 bytes of code
   matching C, bytes         0.0%  0 bytes, 0 units
-  matching C, functions     0.0%  0 of 1782
-  named functions           3.1%  55 of 1782
+  matching C, functions     0.0%  0 of 1768
+  named functions           3.1%  55 of 1768
   named code, bytes         0.4%  code in named functions
   documented functions      0.0%  0 in docs/*.md
   named globals                   0
-SDK (Sega libraries)              1252 functions, 202524 bytes of code
-  named functions          79.0%  989 of 1252 (signatures)
+SDK (Sega libraries)              1266 functions, 203898 bytes of code
+  named functions          79.4%  1005 of 1266 (signatures)
 ```
 <!-- /progress -->
 
@@ -93,8 +93,8 @@ Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 
 ## Names
 
-Names come from signature matching: 976 matches from the Katana SDK's own libraries and
-13 from the public Tokyo Bus Guide decomp (only unique matches are applied). 1,044
+Names come from signature matching: 992 matches from the Katana SDK's own libraries and
+13 from the public Tokyo Bus Guide decomp (only unique matches are applied). 1,060
 functions carry a name in all, because small wrappers inherit the name of the function they call.
 
 ## How this was started
@@ -112,6 +112,13 @@ solely responsible for determining whether you are entitled to obtain and use an
 
 Boku Doraemon and its publisher's trademarks belong to their owners. This project is not affiliated with
 or endorsed by them.
+
+## Where this comes from
+
+It came out of real work on Consoles Playing Consoles. See what Pluto has helped me build:
+
+- 📸 **Instagram:** [@consolesplayingconsoles](https://www.instagram.com/consolesplayingconsoles/)
+- 🔗 **Everything else:** [beacons.ai/consolesplayingconsoles](https://beacons.ai/consolesplayingconsoles)
 
 ## Licence
 
