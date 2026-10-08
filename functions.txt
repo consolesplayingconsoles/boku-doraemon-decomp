@@ -610,7 +610,7 @@ F 8c0380ee 16 FUN_8c0380ee
 F 8c03811c 34 FUN_8c03811c
 F 8c03813e 50 FUN_8c03813e
 F 8c038186 22 pdGetPeripheral
-F 8c0381ac 32 FUN_8c0381ac
+F 8c0381ac 32 nwFillRect
 F 8c0381d8 116 FUN_8c0381d8
 F 8c03828c 26 FUN_8c03828c
 F 8c0382b4 90 FUN_8c0382b4
@@ -2874,8 +2874,8 @@ F 8c0dadda 92 FUN_8c0dadda
 F 8c0dae36 56 FUN_8c0dae36
 F 8c0dae6e 56 FUN_8c0dae6e
 F 8c0daea6 60 FUN_8c0daea6
-F 8c0daf04 10 FUN_8c0daf04
-F 8c0daf10 10 FUN_8c0daf10
+F 8c0daf04 10 UTY_Dmulu
+F 8c0daf10 10 UTY_Dmuls
 F 8c0daf1c 148 FUN_8c0daf1c
 F 8c0dafb0 32 FUN_8c0dafb0
 F 8c0dafd0 32 FUN_8c0dafd0

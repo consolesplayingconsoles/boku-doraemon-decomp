@@ -1,10 +1,11 @@
 # Katana SDK / compiler runtime code (not the game's); the repo's tools/progress.py reports it apart.
 # range <start> <end>: whole blocks; func <addr>: single SDK functions matched by signature.
-range 8c0c8870 8c0fece4 SDK libraries (162 of 409 functions matched SDK signatures)
+range 8c0c8870 8c0fece4 SDK libraries (164 of 409 functions matched SDK signatures)
 func 8c016c62 mwMngIdle
 func 8c027096 nwGetLatencyModel
 func 8c0364e2 syMngGetFbr
 func 8c038186 pdGetPeripheral
+func 8c0381ac nwFillRect
 func 8c03e984 check_valid
 func 8c03eb0c init_fm
 func 8c03ecd4 ntInfExit
