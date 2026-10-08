@@ -1,7 +1,7 @@
 # Boku Doraemon decomp (kick-off)
 
 A matching decompilation of the Dreamcast **Boku Doraemon**, in progress. It rebuilds the game's
-executable byte for byte from one assembly file per function, with 1,164 of its 3,034 functions
+executable byte for byte from one assembly file per function, with 1,167 of its 3,034 functions
 named so far.
 
 **This repository contains no game code or data.** You supply your own disc; `setup.sh` generates
@@ -76,15 +76,15 @@ functions documented in `docs/*.md`.
 
 <!-- progress -->
 ```
-GAME CODE                         1696 functions, 224788 bytes of code
+GAME CODE                         1695 functions, 224756 bytes of code
   matching C, bytes         0.0%  0 bytes, 0 units
-  matching C, functions     0.0%  0 of 1696
-  named functions           3.5%  59 of 1696
+  matching C, functions     0.0%  0 of 1695
+  named functions           3.5%  59 of 1695
   named code, bytes         0.6%  code in named functions
   documented functions      0.0%  0 in docs/*.md
   named globals                   0
-SDK (Sega libraries)              1338 functions, 213972 bytes of code
-  named functions          82.6%  1105 of 1338 (signatures)
+SDK (Sega libraries)              1339 functions, 214004 bytes of code
+  named functions          82.7%  1108 of 1339 (signatures)
 ```
 <!-- /progress -->
 
@@ -93,8 +93,9 @@ Updated on every commit by `tools/hooks/pre-commit` (enable once per clone:
 
 ## Names
 
-Names come from signature matching: 1,091 matches from the Katana SDK's own libraries and
-18 from the public Tokyo Bus Guide decomp (only unique matches are applied). 1,164
+Names come from signature matching: 1,094 matches from the Katana SDK's own libraries (the
+tables of 16 Katana releases, merged so a hash two releases name differently stays ambiguous) and
+18 from the public Tokyo Bus Guide decomp (only unique matches are applied). 1,167
 functions carry a name in all, because small wrappers inherit the name of the function they call.
 
 ## How this was started
