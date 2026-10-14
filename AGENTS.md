@@ -3,19 +3,27 @@
 This repo rebuilds the game's `1ST_READ.BIN` byte for byte. Keep it that way: every change ends
 with `bash build.sh` printing `MATCH`.
 
+Game code counts as decompiled when its C **behaves like the original** (Equivalent: same calls,
+same memory writes, same result on every test case, checked by `tools/equiv.py`). C that also
+rebuilds the original bytes (Matching) is the bonus tier: it goes into the build as a unit.
+
 ## Layout
 - `functions.txt`: every function (`F <addr> <size> <name>`). The source of truth for names and
   boundaries: `asm/` is generated from it (`python3 tools/split_asm.py 1ST_READ.BIN "$(cat BASE)"
   functions.txt .`).
 - `asm/<addr>_<name>.src`: one file per function, in link order (`objects.txt`). Each starts as data
   words (`.DATA.W`), which is what makes the first build match.
-- `src/<unit>.c`: matching C. A file whose first line is `/* @unit <start>-<end> [shc options] */`
+- `src/<file>.c`: C for the game's code. Without a header it is checked for behaviour only
+  (`tools/equiv.py`) and stays out of the build. A file whose first line is `/* @unit <start>-<end> [shc options] */`
   replaces every asm file in that range (`tools/units.py`, `tools/fill.py`). A unit with constant
   data (tables, strings) adds `@data <dstart>-<dend>`: the range where the original link put that data. Its ends are
   `D <addr> 0 data_<addr>` lines in `functions.txt` (data boundaries, not counted as functions).
 - `symbols.txt`: `<addr> <name>` for what the C uses that no file defines yet (RAM, data still inside
   asm); the linker gets them as defines.
-- `sdk.txt`: which code is Sega's SDK. `python3 tools/progress.py` reports game and SDK apart.
+- `sdk.txt`: the bundled Sega SDK's code. `python3 tools/progress.py` reports the state.
+- `tests/<file>/<function>.json`: test cases for a function (a list; each gives registers, bytes to
+  put in memory, return values for the calls it makes, optionally a RAM dump to start from:
+  `tools/sh4sim.py`). `tests/equivalent.txt`: the functions `tools/equiv.py` found equivalent.
 - `python3 tools/shdis.py <start> <end>`: SH-4 disassembly with FPU, pool values and names, to
   read the original while writing C.
 - `BASE`: the address the executable is linked at. `1ST_READ.BIN`: yours, never committed.
@@ -35,7 +43,35 @@ by address or by name (`python3 tools/live.py watch <name>`, `vec <name>+4`), so
 name can be checked against what the value does in play. Setup and commands: `tools/live.py` with
 no arguments. Reading the code stays the evidence; a live value confirms it or sends you back.
 
-## The C loop (one original source file at a time)
+## The C loop: Equivalent first
+1. **Write `src/<file>.c`**: the functions you read, in C, as the original source would have them
+   (one file per original source file is the goal, but a few functions are fine to start).
+   Outside names it uses come from `functions.txt`, `globals.txt` and `symbols.txt`.
+2. **Write cases** in `tests/<file>/<function>.json`: the inputs that reach each branch (registers,
+   memory bytes via `poke`, a RAM dump for the world state), what each call it makes returns, and
+   what each case covers (`about`). Split them `{"dev": [...], "holdout": [...]}`: write the dev
+   cases first and iterate on them; then write holdout cases the C was never checked against (other
+   values, another RAM dump) and run once more. A function counts only when both pass.
+   Before writing C, run the three checks (`references/equivalent-pipeline.md` in the kickoff skill): the
+   size is right (`python3 tools/checksizes.py <name>`: a literal pool mid-body ends a listing early), the
+   function can be C (`python3 tools/classify.py <name>`: FPU register banks, `fsrra`, control registers
+   other than SR cannot) and every name it uses exists (`python3 tools/poollist.py <name>`; `python3 tools/shdis.py --func <name>`
+   prints it).
+3. **Check**: `python3 tools/equiv.py src/<file>.c` (`-q`: only what is not Equivalent). Each function runs in the SH-4 interpreter
+   twice per case, the original bytes and your compiled C, and must agree on calls (target and the
+   arguments the callee takes, from the prototype you declare for it; the compiler's `_...` runtime helpers
+   run for real; a stack address is "the stack"), memory writes and the return register (from your prototype).
+   A call may fill an output slot: `"poke_arg": {"r7": "<hex>"}`. `DIFFERS` names the
+   first case and what differed. A function with all cases agreeing is Equivalent: it goes into
+   `tests/equivalent.txt`, and its evidence (address, size, file, case counts, what they cover)
+   into `docs/equivalent.md`, one entry per function.
+4. **Progress**: `python3 tools/progress.py` (Equivalent first, Matching beside it).
+
+Cases are the evidence: one case proves little; cover each branch and edge (zero, negative, the
+values the game really uses). A RAM dump from the running game (`tools/live.py`) gives real
+world state to start from.
+
+## Matching (the bonus tier, one original source file at a time)
 1. **Find the unit.** The compiler's literal pools are shared by every function of one source file,
    and `bsr` calls only reach functions of the same file: a unit runs from just after the previous
    file's pool (and its padding) to the end of its own last pool. Both ends must be function
