@@ -18,3 +18,8 @@ image DDD11.PVR 10 Doraemon 2
 image PARAM.PVM 200d0 Nobita Neutral
 image PARAM.PVM 280f0 Nobita Happy
 image PARAM.PVM 30110 Nobita Sad
+
+# Text files (dumped to text-dump/, shown by the Text tab when they can be read as text)
+text /STORY.PAC
+text /DOUGU/ITEMTBL.PAC
+text /DPETC/MESSAGE.INI
